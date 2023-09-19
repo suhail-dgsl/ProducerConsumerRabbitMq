@@ -1,0 +1,42 @@
+version: '3.4'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: rabbitmq
+    hostname: mashq
+    ports:
+      - 15672:15672
+      - 5672:5672
+      - 5671:5671
+    networks:
+      - mashq
+
+  producer:
+    image: ${DOCKER_REGISTRY-}producer
+    
+    build:
+      context: .
+      dockerfile: Producer/Dockerfile
+    depends_on:
+      - rabbitmq
+    networks:
+      - mashq
+
+  consumer:
+    image: ${DOCKER_REGISTRY-}consumer
+    build:
+      context: .
+      dockerfile: Consumer/Dockerfile
+    depends_on:
+      - rabbitmq
+      - producer
+    networks:
+      - mashq
+
+networks:
+  mashq:
+    external:
+      name: mashq
+
+
