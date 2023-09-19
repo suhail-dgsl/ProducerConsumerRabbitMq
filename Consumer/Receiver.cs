@@ -32,7 +32,7 @@ public class Receiver
             channel.BasicConsume("BasicTest", true, consumer);
         }
 
-        Console.WriteLine("Press [enter] to exit the Sender App.");
+        Console.WriteLine("Press [enter] to exit the Sender application...");
         Console.ReadLine();
     }
 }
